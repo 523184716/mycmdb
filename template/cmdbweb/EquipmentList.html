@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}
+    设备列表
+{% endblock %}
+
+{% block style %}
+    <script src = "/static/vendor/jquery/jquery1.7.2.min.js"></script>
+    <script src = "/static/js/vue.min.js"></script>
+{% endblock %}
+
+{% block label %}
+    设备列表
+{% endblock %}
+
+{% block content %}
+    <!-- 列表部分 -->
+    <div class = "row">
+        {% verbatim myblock %}
+        <div class="col-lg-12" id = "eqList">
+            <table class="col-lg-12 table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>ip地址</th>
+                        <th>主机名</th>
+                        <th>系统</th>
+                        <th>链接状态</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class = "gradeA" v-for = "eq in Data">
+                        <td>{{ eq.ip }}</td>
+                        <td>{{ eq.host }}</td>
+                        <td>{{ eq.system }}</td>
+                        <td>{{ eq.connection }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <ul class = "pagination">
+                <li v-for = "page in P_range">
+                    <a href = "/eqData/{{ page }}" onclick = "getData({{ page }})">{{ page }}</a>
+                </li>
+            </ul>
+        </div>
+        {% endverbatim myblock %}
+    </div>
+    <!-- 列表部分结束 -->
+    <script>
+        function getData(pagenum,number,args) {
+            //pagenum 页码
+            //number每页多少条
+            //args关键字
+            var pagenum = arguments[0] ? arguments[0]:1; //如果arguments[0]存在，pagenum的值为arguments[0]，否则为1
+            var number = arguments[1] ? arguments[1]:2; //如果arguments[1]存在，number的值为arguments[1]，否则为2
+            var args = arguments[2] ? arguments[2]:""; //如果arguments[2]存在，args的值为arguments[2]，否则为“”
+            url = "/eqData/?pagenum="+pagenum+"&number="+number+"&args="+args;
+            console.log(url);
+             $.ajax(
+                 {
+                     url: url,
+                     type:"get",
+                     data:"",
+                     success:function (data) {
+                         console.log(data);
+                         new Vue(
+                            {
+                                el:"#eqList",
+                                data:data
+                            }
+                        )
+                     },
+                     error:function (error) {
+
+                     }
+
+                 }
+             )
+        }
+        function postData(name,password) {
+            var sendData = {
+                name:name,
+                password:password
+            };
+            sendData["csrfmiddlewaretoken"] = "{{ csrf_token }}";
+{#            //{% csrf_token %}#}
+            console.log(sendData);
+             $.ajax(
+                 {
+                     url: "/postData/",
+                     type:"post",
+                     data:sendData,
+                     success:function (data) {
+                         console.log(data);
+                     },
+                     error:function (error) {
+                        console.log("++++++++++++++");
+                        console.log(error);
+                        console.log("+++++++++++++++");
+                     }
+
+                 }
+             )
+        }
+        $(
+             function () {
+                 getData();
+                 postData("while","123")
+             }
+        )
+    </script>
+{% endblock %}
+
+
