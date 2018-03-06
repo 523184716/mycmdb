@@ -29,12 +29,13 @@
 
     <!-- Custom Fonts -->
     <link href="/static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
+    <link rel="stylesheet" type="text/css" href="/static/css/register.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+
     <![endif]-->
     {% block style %}
     {% endblock %}
@@ -253,9 +254,9 @@
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> 用户配置</a>
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> 个人中心</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> 设置</a>
+                        <li><a href="#" data-toggle="modal" data-target="#userregister"><i class="fa fa-gear fa-fw"></i> 注册</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i>退出</a>
@@ -308,13 +309,16 @@
                             <a href="tables.html"><i class="fa fa-table fa-fw"></i> 接口管理</a>
                         </li>
                         <li>
+                            <a href="tables.html"><i class="fa fa-table fa-fw"></i> 日志管理</a>
+                        </li>
+                        <li>
                             <a href="forms.html"><i class="fa fa-edit fa-fw"></i> 平台信息</a>
                         </li>
                         <li>
                             <a href="fault.html"><i class="fa fa-edit fa-fw"></i> 故障集锦</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-edit fa-fw"></i> 图表<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-edit fa-fw"></i> 报表<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="fault-report.html">故障汇总</a>
@@ -362,7 +366,33 @@
             <!-- /.row -->
         </div>
         <!-- /#page-wrapper -->
-
+        <!--模态框开始，最外层盒子设置一个图层，模态框开启的时候防止操作下面的内容，第二个盒子是模态框实质显示的框架，第三个才是实际的内容部分-->
+        <div class="modal fade" id="userregister" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <!--模态框的头部设置关闭按钮和标题-->
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title text-center">用户注册</h4>
+                    </div>
+                    <!--模态框的body部分，加载要显示的内容-->
+                    <div class="modal-body">
+                        <!--<p>One fine body&hellip;</p>-->
+                        <div>
+                            {{ userregister.as_p }}
+                        </div>
+                    </div>
+                    <div class="modal-footer ">
+                        <!--增加一个div盒子，方便设置里面的button居中(inner-block)-->
+                        <div class="text-center" >
+                            <!--通过此id设置两个按钮之间的间距-->
+                            <button type="button" class="btn btn-primary"  id="registerbutton">注册</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
     </div>
     <!-- /#wrapper -->
 
