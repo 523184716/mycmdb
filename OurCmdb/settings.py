@@ -136,3 +136,8 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR,"static").replace("\\","/"),
 )
 
+#加载媒体文件，比如图片
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,"static").replace("\\","/")
+
+
