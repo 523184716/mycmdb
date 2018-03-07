@@ -418,7 +418,7 @@
 <script>
     $(
         function () {
-            var result = [];
+            // var data_email = $("#id_email").val();
             $("#id_username").blur(function () {
                 var data_user = $("#id_username").val();
                 console.log(data_user)
@@ -428,16 +428,6 @@
                     data:"",
                     success:function (data) {
                         console.log(data)
-                        if ( data["state"] == "success"){
-                            if ($.inArray("username",result) == -1){
-                                result.push("username")
-                                console.log(result)
-                            }
-                        }else {
-                            if (result.indexOf("username") != -1){
-                                result.pop("username")
-                            }
-                        }
                     },
                     error:function (error) {
                         console.log(error)
@@ -453,22 +443,12 @@
                     data:"",
                     success:function (data) {
                         console.log(data)
-                        if ( data["state"] == "success"){
-                            if ($.inArray("phone",result) == -1){
-                                result.push("phone")
-                                console.log(result)
-                            }
-                        }else {
-                            if (result.indexOf("phone") != -1){
-                                result.pop("phone")
-                            }
-                        }
                     },
                     error:function (error) {
                         console.log(error)
                     }
                 })
-            });
+            })
             $("#id_confirm_password").blur(function () {
                 var data_password = $("#id_password").val();
                 var data_confirm_password = $("#id_confirm_password").val();
@@ -486,16 +466,6 @@
                             data:"",
                             success:function (data) {
                                 console.log(data)
-                                if ( data["state"] == "success"){
-                                    if ($.inArray("password",result) == -1){
-                                        result.push("password")
-                                        console.log(result)
-                                    }
-                                }else {
-                                    if (result.indexOf("password") != -1){
-                                        result.pop("password")
-                                    }
-                                }
                             },
                             error:function (error) {
                                 console.log(error)
@@ -503,69 +473,21 @@
                         })
                     }
                 }
-            });
+            })
             $("#id_email").blur(function () {
-                var data_email = $("#id_email").val();
-                console.log(data_email)
+                var data_phone = $("#id_email").val();
+                console.log(data_phone)
                 $.ajax({
-                    url:"email_check?email="+data_email,
+                    url:"{% url "email_check" %}?phone="+data_phone,
                     type:"get",
                     data:"",
                     success:function (data) {
                         console.log(data)
-                        if ( data["state"] == "success"){
-                            if ($.inArray("email",result) == -1){
-                                result.push("email")
-                                console.log(result)
-                            }
-                        } else {
-                            if (result.indexOf("email") != -1){
-                                result.pop("email")
-                            }
-                        }
                     },
                     error:function (error) {
                         console.log(error)
                     }
                 })
-            });
-            $("#registerbutton").click(function () {
-                var result_len = result.length;
-                console.log(result_len)
-                console.log(result)
-                if (result_len != 4){
-                    console.log("请确认上面的数据是否都已填写")
-                }
-                else {
-                    var data_user = $("#id_username").val();
-                    var data_phone = $("#id_phone").val();
-                    var data_password = $("#id_password").val();
-                    var data_confirm_password = $("#id_confirm_password").val();
-                    var data_email = $("#id_email").val();
-                    var photo = $("#id_photo")[0].files[0];
-
-                    var submit_data = {};
-                    submit_data["data_user"] = data_user;
-                    submit_data["data_phone"] = data_phone;
-                    submit_data["data_password"] = data_password;
-                    submit_data["data_confirm_password"] = data_confirm_password;
-                    submit_data["data_email"] = data_email;
-                    submit_data["photo"] = photo;
-                    submit_data["csrfmiddlewaretoken"] = "{{ csrf_token }}";
-                    console.log(submit_data)
-
-                    $.ajax({
-                        url:"",
-                        type:"post",
-                        data:submit_data,
-                        success:function (data) {
-                            console.log(data)
-                        },
-                        error:function (error) {
-                            console.log(error)
-                        }
-                    })
-                }
             })
         }
     )

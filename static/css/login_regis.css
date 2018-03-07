@@ -1,0 +1,141 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 100%;
+    background: url("../image/bbb.jpg") no-repeat;
+    background-size: cover;
+}
+.login-form {
+    padding: 60px 0px 40px 0px;
+}
+
+.top-login {
+    width: 130px;
+    height: 130px;
+    display: block;
+    /*-webkit-transform: rotate(45deg) translate3d(0, 0, 0);*/
+    /*-moz-transform: rotate(45deg) translate3d(0, 0, 0);*/
+    /*-ms-transform: rotate(45deg) translate3d(0, 0, 0);*/
+    /*-o-transform: rotate(45deg) translate3d(0, 0, 0);*/
+    transform: rotate(45deg) translate3d(0, 0, 0);
+    margin: 0 auto 4em;
+    background: #fff;
+    position: relative;
+}
+.top-login span {
+    border: 2px solid #F36;
+    width: 105px;
+    height: 105px;
+    display: block;
+    margin: 0px auto;
+    position: absolute;
+    top: 11px;
+    left: 11px;
+}
+.top-login span img {
+    /*-webkit-transform: rotate(-45deg) translate3d(0, 0, 0);*/
+    /*-moz-transform: rotate(-45deg) translate3d(0, 0, 0);*/
+    /*-ms-transform: rotate(-45deg) translate3d(0, 0, 0);*/
+    /*-o-transform: rotate(-45deg) translate3d(0, 0, 0);*/
+    transform: rotate(-45deg) translate3d(0, 0, 0);
+    margin: 20px 0 0 20px;
+}
+img {
+    max-width: 100%;
+}
+
+.login-form h1 {
+    font-size: 2em;
+    color: #fff;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 2em;
+}
+
+.login-top {
+    width: 460px;
+    display: block;
+    margin: 0 auto;
+}
+
+.login-ic {
+    background: rgba(255, 255, 255, 0.32);
+    margin-bottom: 1.5em;
+    padding: 8px;
+}
+.login-ic i {
+    background: url("../image/m.png") no-repeat 6px 6px;
+    width: 38px;
+    height: 38px;
+    float: left;
+    display: inline-block;
+}
+
+.login-ic input[type="text"], .login-ic input[type="password"] {
+    float: left;
+    background: none;
+    outline: none;
+    font-size: 15px;
+    font-weight: 400;
+    color: #fff;
+    padding: 10px 16px;
+    border: none;
+    border-left: 1px solid #fff;
+    width: 82%;
+    display: inline-block;
+    margin-left: 7px;
+}
+
+.clear {
+    clear: both;
+}
+
+.login-ic i {
+    background: url("../image/l.png") no-repeat 6px 6px;
+    width: 38px;
+    height: 38px;
+    float: left;
+    display: inline-block;
+}
+
+.log-bwn {
+    text-align: center;
+}
+
+.log-bwn input[type="submit"] {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    padding: 13px 0;
+    background: #ff3366;
+    display: inline-block;
+    width: 100%;
+    outline: none;
+    border: 2px solid #ff3366;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+p.copy {
+    color: #fff;
+    font-size: 1em;
+    text-align: center;
+    /*margin-top: 6em;*/
+}
+
+.pgbody-register {
+    width: 460px;
+    height: 30px;
+    /*border: 1px solid red;*/
+    margin: 10px auto;
+}
+.register {
+    /*display: block;*/
+    float: right;
+    text-align: center;
+    margin-top: 10px;
+}
+
+/*.register:hover {*/
+    /*color: red;*/
+/*}*/

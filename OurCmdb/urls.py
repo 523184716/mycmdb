@@ -19,4 +19,10 @@ from view import  *
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$',base,name="base"),
+    url(r'^login$',login,name="login"),
+    url(r'^phone_check',phone_check,name="phone_check"),
+    url(r'^user_check',user_check,name="user_check"),
+    url(r'^password_check',password_check,name="password_check"),
+    url(r'^email_check',email_check,name='email_check'),
+    url(r'^register$',register,name="register")
 ]

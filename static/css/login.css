@@ -1,0 +1,17 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    /*font-size: 12px;*/
+    /*vertical-align: middle;*/
+    /*cursor: auto;*/
+    /*color: #999;*/
+}
+
+a:hover {
+    color: red;
+    text-decoration: underline;
+}

@@ -13,6 +13,10 @@ class UserRegister(forms.Form):
                label="密码",
                widget=forms.PasswordInput({"class":"form-control","placeholder":"密码"})
                )
+    confirm_password = forms.CharField(max_length=64, min_length=6,
+                               label="确认密码",
+                               widget=forms.PasswordInput({"class": "form-control", "placeholder": "确认密码"})
+                               )
     email = forms.CharField(max_length=32,min_length=6,
                 label="邮箱",
                 widget=forms.TextInput({"class":"form-control","placeholder":"邮箱"})
@@ -34,10 +38,13 @@ class UserRegister(forms.Form):
 
     def clean_passwd(self):
         password = self.cleaned_data.get("password")
+        confirm_password = self.cleaned_data.get("confirm_password")
         if str(password).isdigit():
             return  ValidationError("密码必须存在特殊字符")
         elif str(password).isalnum():
             return ValidationError("密码必须存在特殊字符")
+        elif password != confirm_password:
+            return ValidationError("两次输入的密码不一致，请确认")
         else:
             return password
 
