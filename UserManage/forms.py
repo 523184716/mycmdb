@@ -5,7 +5,7 @@ from django.forms import  ValidationError
 from models import UserManage
 import  re
 class UserRegister(forms.Form):
-    username = forms.CharField(max_length=32,min_length=6,
+    username = forms.CharField(max_length=32,min_length=5,
                label="用户名",
                widget=forms.TextInput({"class":"form-control","placeholder":"用户名"})
                )
@@ -21,7 +21,7 @@ class UserRegister(forms.Form):
                 label="邮箱",
                 widget=forms.TextInput({"class":"form-control","placeholder":"邮箱"})
                 )
-    phone = forms.CharField(max_length=32,min_length=7,
+    phone = forms.CharField(max_length=16,min_length=7,
                 label="手机号码",
                 widget=forms.TextInput({"class":"form-control","placeholder":"手机号码"})
                 )
@@ -40,11 +40,11 @@ class UserRegister(forms.Form):
         password = self.cleaned_data.get("password")
         confirm_password = self.cleaned_data.get("confirm_password")
         if str(password).isdigit():
-            return  ValidationError("密码必须存在特殊字符")
+            raise  ValidationError("密码必须存在特殊字符")
         elif str(password).isalnum():
-            return ValidationError("密码必须存在特殊字符")
+            raise ValidationError("密码必须存在特殊字符")
         elif password != confirm_password:
-            return ValidationError("两次输入的密码不一致，请确认")
+            raise ValidationError("两次输入的密码不一致，请确认")
         else:
             return password
 
@@ -55,7 +55,7 @@ class UserRegister(forms.Form):
         except:
             return phone
         else:
-            return ValidationError("此号码已注册")
+            raise ValidationError("此号码已注册")
 
     def clean_email(self):
         email = self.cleaned_data.get("email")
@@ -63,4 +63,4 @@ class UserRegister(forms.Form):
         if result:
             return email
         else:
-            return ValidationError("邮箱格式不符合规则")
+            raise ValidationError("邮箱格式不符合规则")

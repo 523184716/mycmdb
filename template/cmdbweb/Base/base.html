@@ -52,6 +52,7 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="/static/dist/js/sb-admin-2.js"></script>
+    <!--<script src="/static/vendor/jquery/jquery.flot.tooltip.js"></script>-->
     <![endif]-->
     {% block style %}
     {% endblock %}
@@ -402,8 +403,10 @@
                         <!--增加一个div盒子，方便设置里面的button居中(inner-block)-->
                         <div class="text-center" >
                             <!--通过此id设置两个按钮之间的间距-->
-                            <button type="button" class="btn btn-primary"  id="registerbutton">注册</button>
+                            <!--<button   type="button" class="btn btn-primary" data-toggle="popover"  data-placement="top" trigger="focus" title="Dismissible popover" data-content="Vivamus" id="registerbutton">注册</button>-->
+                            <a tabindex="200" class="btn btn-primary" role="button" data-toggle="popover" data-placement="top" data-trigger="focus"  data-content="And here's " id="registerbutton">注册</a>
                             <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+
                         </div>
                     </div>
                 </div><!-- /.modal-content -->
@@ -427,15 +430,26 @@
                     type:"get",
                     data:"",
                     success:function (data) {
-                        console.log(data)
+                        <!--获取username input下面的span元素是否存在来做判断-->
+                        span_label=$("#id_username").next("span").text()
                         if ( data["state"] == "success"){
                             if ($.inArray("username",result) == -1){
                                 result.push("username")
-                                console.log(result)
+                            }
+                            <!--如果存在span提示框就移除-->
+                            if(span_label){
+                                $("#id_username").next("span").remove()
                             }
                         }else {
                             if (result.indexOf("username") != -1){
                                 result.pop("username")
+                            }
+                            <!--如果存在就修改span元素的值，不存在就直接添加-->
+                            if(span_label){
+                                $("#id_username").next("span").text(data["data"])
+                            }
+                            else {
+                                $("#id_username").after("<span style='color: red'>"+data["data"]+"</span>")
                             }
                         }
                     },
@@ -453,14 +467,24 @@
                     data:"",
                     success:function (data) {
                         console.log(data)
+                        span_label=$("#id_phone").next("span").text()
                         if ( data["state"] == "success"){
                             if ($.inArray("phone",result) == -1){
                                 result.push("phone")
                                 console.log(result)
                             }
+                            if(span_label){
+                                $("#id_phone").next("span").remove()
+                            }
                         }else {
                             if (result.indexOf("phone") != -1){
                                 result.pop("phone")
+                            }
+                            if(span_label){
+                                $("#id_phone").next("span").text(data["data"])
+                            }
+                            else {
+                                $("#id_phone").after("<span style='color: red'>"+data["data"]+"</span>")
                             }
                         }
                     },
@@ -473,11 +497,23 @@
                 var data_password = $("#id_password").val();
                 var data_confirm_password = $("#id_confirm_password").val();
                 if (data_password == ""){
-                    console.log("请输入密码")
+                    span_label=$("#id_password").next("span").text()
+                    if(span_label){
+                        $("#id_password").next("span").text("请填写密码")
+                    }
+                    else {
+                        $("#id_password").after("<span style='color: red'>请填写密码</span>")
+                    }
                 }
                 else {
                     if (data_confirm_password == ""){
-                        console.log("请填写确认密码")
+                        span_label=$("#id_password").next("span").text()
+                        if(span_label){
+                            $("#id_password").next("span").text("请填写确认密码")
+                        }
+                        else {
+                            $("#id_password").after("<span style='color: red'>请填写确认密码</span>")
+                        }
                     }
                     else {
                         $.ajax({
@@ -486,14 +522,24 @@
                             data:"",
                             success:function (data) {
                                 console.log(data)
+                                span_label=$("#id_password").next("span").text()
                                 if ( data["state"] == "success"){
                                     if ($.inArray("password",result) == -1){
                                         result.push("password")
                                         console.log(result)
                                     }
+                                    if(span_label){
+                                        $("#id_password").next("span").remove()
+                                    }
                                 }else {
                                     if (result.indexOf("password") != -1){
                                         result.pop("password")
+                                    }
+                                    if(span_label){
+                                        $("#id_password").next("span").text(data["data"])
+                                    }
+                                    else {
+                                        $("#id_password").after("<span style='color: red'>"+data["data"]+"</span>")
                                     }
                                 }
                             },
@@ -513,14 +559,24 @@
                     data:"",
                     success:function (data) {
                         console.log(data)
+                        span_label=$("#id_email").next("span").text()
                         if ( data["state"] == "success"){
                             if ($.inArray("email",result) == -1){
                                 result.push("email")
                                 console.log(result)
                             }
+                            if(span_label){
+                                $("#id_email").next("span").remove()
+                            }
                         } else {
                             if (result.indexOf("email") != -1){
                                 result.pop("email")
+                            }
+                            if(span_label){
+                                $("#id_email").next("span").text(data["data"])
+                            }
+                            else {
+                                $("#id_email").after("<span style='color: red'>"+data["data"]+"</span>")
                             }
                         }
                     },
@@ -532,39 +588,77 @@
             $("#registerbutton").click(function () {
                 var result_len = result.length;
                 console.log(result_len)
-                console.log(result)
                 if (result_len != 4){
-                    console.log("请确认上面的数据是否都已填写")
+                    <!--向上弹出提示框，修改提示框的内容-->
+                    $("#registerbutton").attr("data-content","请确认上面的数据是否都已填写");
+                    <!--调用元素以及popver方法弹出提示框，这种是a标签以及role是button的情况-->
+                    <!--若直接是button标签，$('[data-toggle="popover"]').popver()选择属性的方法来调用，并且这种不是focus的方式-->
+                    $('#registerbutton').popover('show')
                 }
                 else {
-                    var data_user = $("#id_username").val();
-                    var data_phone = $("#id_phone").val();
-                    var data_password = $("#id_password").val();
-                    var data_confirm_password = $("#id_confirm_password").val();
-                    var data_email = $("#id_email").val();
-                    var photo = $("#id_photo")[0].files[0];
+                    var data_photo = $("#id_photo")[0].files[0];  <!--取图片的值-->
+                    console.log(data_photo)
+                    if (data_photo){
+                        $('#registerbutton').popover('hide')
+                        var data_user = $("#id_username").val();
+                        var data_phone = $("#id_phone").val();
+                        var data_password = $("#id_password").val();
+                        var data_confirm_password = $("#id_confirm_password").val();
+                        var data_email = $("#id_email").val();
 
-                    var submit_data = {};
-                    submit_data["data_user"] = data_user;
-                    submit_data["data_phone"] = data_phone;
-                    submit_data["data_password"] = data_password;
-                    submit_data["data_confirm_password"] = data_confirm_password;
-                    submit_data["data_email"] = data_email;
-                    submit_data["photo"] = photo;
-                    submit_data["csrfmiddlewaretoken"] = "{{ csrf_token }}";
-                    console.log(submit_data)
 
-                    $.ajax({
-                        url:"",
-                        type:"post",
-                        data:submit_data,
-                        success:function (data) {
-                            console.log(data)
-                        },
-                        error:function (error) {
-                            console.log(error)
-                        }
-                    })
+                        <!--当没有图片或者文件上传时，直接使用字典可是即可，然后用ajax与后台交互-->
+                        // var submit_data = {};
+                        // submit_data["data_user"] = data_user;
+                        // submit_data["data_phone"] = data_phone;
+                        // submit_data["data_password"] = data_password;
+                        // submit_data["data_confirm_password"] = data_confirm_password;
+                        // submit_data["data_email"] = data_email;
+                        // submit_data["photo"] = data_photo;
+                        // submit_data["csrfmiddlewaretoken"] = "{{ csrf_token }}";
+
+                        <!--当有文件和图片时，用表单数据格式添加，然后在用ajax与后台进行交互，processData，contentType这两个一定要加上-->
+                        <!--这里添加的键值key名必须与后台form表单中一一对应，不然数据传入后台检验时无法通过-->
+                        var submit_data = new FormData();
+                        submit_data.append("username",data_user);
+                        submit_data.append("password",data_password);
+                        submit_data.append("phone",data_phone);
+                        submit_data.append("confirm_password",data_confirm_password);
+                        submit_data.append("email",data_email);
+                        submit_data.append("photo",data_photo);
+                        submit_data.append("csrfmiddlewaretoken","{{ csrf_token }}")
+                        // console.log(submit_data["csrfmiddlewaretoken"])
+
+                        $.ajax({
+                            url:"register",
+                            type:"post",
+                            data:submit_data,
+                            processData:false, <!--取消序列化-->
+                            contentType:false, <!--取消文件类型检测-->
+                            success:function (data) {
+                                if (data["state"] == "success"){
+                                    $("#id_username").val("");
+                                    $("#id_password").val("");
+                                    $("#id_phone").val("");
+                                    $("#id_confirm_password").val("");
+                                    $("#id_email").val("");
+                                    $("#id_photo").val("");
+                                    $("#userregister").modal("hide")
+                                }
+                                else {
+                                    $("#registerbutton").attr("data-content",data["data"])
+                                    $('#registerbutton').popover('toggle')
+                                }
+                            },
+                            error:function (error) {
+                                console.log(error)
+                            }
+                        })
+                    }
+                    else {
+                        $("#registerbutton").attr("data-content","请上传图片")
+                        $('#registerbutton').popover('show')
+                    }
                 }
             })
         }
