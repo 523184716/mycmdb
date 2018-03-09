@@ -1,11 +1,11 @@
 #coding:utf-8
 
-from models import UserManage
+from models import UserList
 import  re
 
 #手机号校验函数
 def valid_phone(phone):
-    phone_count = UserManage.objects.filter(phone=phone).count()
+    phone_count = UserList.objects.filter(phone=phone).count()
     if phone_count:
         return "此号码已注册"
     elif len(str(phone)) < 7:
@@ -19,7 +19,7 @@ def valid_phone(phone):
 
 #用户校验函数
 def valid_user(user):
-    db_user = UserManage.objects.filter(username=user).count()
+    db_user = UserList.objects.filter(username=user).count()
     if db_user:
         return "用户名已 存在"
     elif  len(user) < 5:

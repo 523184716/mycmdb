@@ -1,57 +1,94 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html lang="en">
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>CMDB登录</title>
-    <link  rel="stylesheet" type="text/css" href="/static/css/login.css"/>
-    <link rel="stylesheet" href="/static/css/login_regis.css">
-    <meta http-equiv="content-type" content="text/html">
-    <meta name="keywords" content="CMDB">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CMDB登录界面</title>
+    <!--<link type="text/css" rel="stylesheet" href="../bootstrap/dist/css/bootstrap.min.css">-->
+    <!--<link type="text/css" rel="stylesheet" href="../static/css/index.css">-->
+
+    <link type="text/css" rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
 <body>
-    <div class="login-form">
-        <div class="top-login" >
-            <span>
-                <img src="/static/image/group.png" alt>
-            </span>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 "></div>
+            <img src="{% static 'image/avatar3.jpg' %}" class="img-responsive img-circle center-block img-size" alt="Responsive image">
         </div>
-        <h1>登录</h1>
-        <div class="login-top">
-            <form action="login" method="POST">
-                <div class="login-ic">
-                    <i></i>
-                    <input type="text" name="username" value="用户" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'User name';}">
-                    <div class="clear"> </div>
-                </div>
-                <div class="login-ic">
-					<i class="icon"></i>
-					<input type="password" name="password" value="密码" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'password';}">
-					<div class="clear"> </div>
-				</div>
-                <div class="log-bwn">
-					<input type="submit" value="Login">
-				</div>
-            </form>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3 ">
+                <form class="form-inline" action="{% url 'login' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group has-success has-feedback " id="user">
+                        <label class="control-label" for="inputSuccess4">UserName：</label>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-user"></i>
+                            </span>
+                            <input type="text" class="form-control user " id="inputSuccess4" aria-describedby="inputSuccess4Status" name="username" placeholder="用户名">
+                        </div>
+                        <!--<div class="input-group input-group-sm btn-block" style="color:red;"><span class="btn-block  text-center">{{ us_result }}</span></div>-->
+                        <span  aria-hidden="true"></span>
+                        <span id="inputSuccess4Status" class="sr-only">(success)</span>
+                    </div>
+                    <div class="form-group has-success has-feedback" id="passwd">
+                        <label class="control-label" for="inputGroupSuccess3">PassWord：</label>
+                        <div class="input-group input-group-lg ">
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-lock"></i>
+                            </span>
+                            <input type="password" class="form-control passwd" id="inputGroupSuccess3" aria-describedby="inputGroupSuccess3Status" name="password" placeholder="密码">
+                        </div>
+                        <span  aria-hidden="true"></span>
+                        <span id="inputGroupSuccess3Status" class="sr-only">(success)</span>
+                    </div>
+                    <div class="form-group has-success has-feedback " id="verify_code">
+                        <label class="control-label" for="inputGroupSuccess5">验证码：</label>
+                        <div class="input-group input-group-lg ">
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-tag"></i>
+                            </span>
+                            <input type="text" class="form-control " name="check_code" id="inputGroupSuccess5" aria-describedby="inputGroupSuccess5Status" placeholder="请输入验证码" >
+                            <span class="input-group-addon">
+                                <img src="{% url 'ver_code_display' %}" />
+                            </span>
+                            <span>{{ ret }}</span>
+                            <span  aria-hidden="true"></span>
+                            <span id="inputGroupSuccess5Status" class="sr-only">(success)</span>
+                        </div>
+                    </div>
+                    <div class="form-group has-success has-feedback" id="remember">
+                        <label class="control-label" >
+                            <input type="checkbox" value="1" name="auto_login"> Remember me
+                        </label>
+                    </div>
+                    <div class="form-group has-success has-feedback text-center btn-group-lg " id="login">
+                        <input class="btn btn-primary btn-block " type="submit" value="login" id="submitdata">
+                    </div>
+                    <div class="input-group input-group-sm btn-block" style="color:red;"><span class="btn-block text-center">{{ result }}</span></div>
+                </form>
+            </div>
         </div>
-        <div class="pgbody-register">
-                <div class="register" id="zhuce"><a href="/register">CMDB</a></div>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+
+            </div>
         </div>
-        <p class="copy">© 2018 xxxxxxxxxxx</p>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+
+            </div>
+        </div>
     </div>
-    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <br>
     <script type="text/javascript">
-//        $('#zhuce').click(function () {
-////            alert("22")
-//            $.ajax({
-//                type:"GET",
-//                url:"/register",
-////                data:{data:"registere"},
-//                success:function (args,status) {
-////                    alert(args)
-////                    alert(status)
-//                }
-//            })
-//        })
+
     </script>
 </body>
 </html>

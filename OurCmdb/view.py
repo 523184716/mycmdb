@@ -1,20 +1,60 @@
 #coding:utf-8
-from django.shortcuts import  render,render_to_response,HttpResponse
+from django.shortcuts import  render,render_to_response,HttpResponse,redirect
 from UserManage.forms import UserRegister
 from UserManage.registercheck import *
 from django.core.exceptions import ValidationError
-from django.http import JsonResponse
+from django.http import JsonResponse , HttpResponseRedirect
 from PIL import  Image
 from datasecret import secretdata
+from UserManage import  create_images
+from io import  BytesIO
 
 def base(request):
     userregister = UserRegister()
     # print userregister
     return  render(request,"cmdbweb/Base/base.html",locals())
 
-def login(request):
+def index(request):
+    userregister = UserRegister()
+    # print userregister
+    return render(request, "cmdbweb/Base/base.html", locals())
 
-    return  render_to_response("cmdbweb/login.html")
+def login(request):
+    if request.method == "POST":
+        login_data = request.POST
+        username = login_data["username"]
+        password = login_data["password"]
+        print username
+        print password
+        try:
+            #判断用户是否存在
+            check_user = UserList.objects.get(username=username)
+            # check_user = UserList.objects.filter(username=username).count()
+            print check_user
+        except Exception as e:
+            return HttpResponseRedirect("login")
+        else:
+            print check_user.password
+            #用户存在的情况下判断密码是否正确
+            if check_user.password == secretdata(password):
+                print "ceshi2"
+                #都OK的情况下跳转至首页并添加cookie至地址中，设置session
+                response_url = HttpResponseRedirect("index")
+                response_url.set_cookie("username",username)
+                request.session["username"]=username
+                request.session["is_login"]=True
+                token = request.COOKIES.get("token")
+                if token:
+                    return response_url
+                else:
+                    return HttpResponseRedirect("login")
+            else:
+                return HttpResponseRedirect("login")
+    else:
+        #直接post之前得先get获取token
+        response = render(request, "cmdbweb/login.html")
+        response.set_cookie("token", "hello")
+        return  response
 
 #校验手机号码，根据校验函数的返回值来判断
 def phone_check(request):
@@ -75,6 +115,7 @@ def email_check(request):
         res["data"] = "requst method must be get!"
     return JsonResponse(res)
 
+#用户注册
 def register(request):
     res = {"state":"error","data":""}
     if request.method == "POST":
@@ -94,7 +135,7 @@ def register(request):
             clean_data["password"]=secretdata(clean_data["password"])
             del  clean_data["confirm_password"]
             #添加至数据库
-            UserManage.objects.create(**clean_data)
+            UserList.objects.create(**clean_data)
             res["state"]="success"
 
         else:
@@ -102,3 +143,13 @@ def register(request):
     else:
         res["data"]="request method must be post"
     return JsonResponse(res)
+
+def create_code_img(request):
+    f = BytesIO() #直接在内存开辟一点空间存放临时生成的图片
+    # 调用check_code生成照片和验证码
+    img, code = create_images.Create_image()
+    request.session['check_code'] = code #将验证码存在服务器的session中，用于校验
+    # print request.session["check_code"]
+    img.save(f,'PNG') #生成的图片放置于开辟的内存中
+    # print f.getvalue()
+    return HttpResponse(f.getvalue())  #将内存的数据读取出来，并以HttpResponse返回

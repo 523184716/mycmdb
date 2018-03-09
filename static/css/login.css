@@ -1,17 +1,26 @@
+#user,#passwd {
+    margin: 10px 0px;
+}
+
+#login {
+
+    margin: 10px auto;
+}
+
+.img-size {
+    width: 200px;
+    height: 200px;
+
+}
+/*#login input {*/
+    /*!*display: inline-block;*!*/
+    /*margin: 0 auto;*/
+/*}*/
+
 body {
-    margin: 0;
-    padding: 0;
+    background-image: url("../image/Starry.jpg");
 }
 
-a {
-    text-decoration: none;
-    /*font-size: 12px;*/
-    /*vertical-align: middle;*/
-    /*cursor: auto;*/
-    /*color: #999;*/
-}
-
-a:hover {
-    color: red;
-    text-decoration: underline;
+#verify_code,#remember {
+    margin: 10px 0px;
 }

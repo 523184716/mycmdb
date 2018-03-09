@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>CMDB登录</title>
-    <link  rel="stylesheet" type="text/css" href="/static/css/login.css"/>
-    <link rel="stylesheet" href="/static/css/login_regis.css">
+    <link  rel="stylesheet" type="text/css" href="/OurCmdb/login_bak/login.css"/>
+    <link rel="stylesheet" href="/OurCmdb/login_bak/login_regis.css">
     <meta http-equiv="content-type" content="text/html">
     <meta name="keywords" content="CMDB">
 </head>
@@ -26,6 +26,15 @@
                 <div class="login-ic">
 					<i class="icon"></i>
 					<input type="password" name="password" value="密码" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'password';}">
+					<div class="clear"> </div>
+				</div>
+                <div class="login-ic">
+					<i class="checksum"></i>
+                    <span><input type="text" name="checksum" value="验证码" >
+                        <button id="flush">刷新</button>
+                    </span>
+
+
 					<div class="clear"> </div>
 				</div>
                 <div class="log-bwn">

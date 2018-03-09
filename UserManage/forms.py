@@ -2,7 +2,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import  ValidationError
-from models import UserManage
+from models import UserList
 import  re
 class UserRegister(forms.Form):
     username = forms.CharField(max_length=32,min_length=5,
@@ -30,7 +30,7 @@ class UserRegister(forms.Form):
     def clean_user(self):
         user = self.cleaned_data.get("user")
         try:
-            db_user = UserManage.objects.get(user=user)
+            db_user = UserList.objects.get(user=user)
         except:
             return user
         else:
@@ -51,7 +51,7 @@ class UserRegister(forms.Form):
     def clean_phone(self):
         phone = self.cleaned_data.get("phone")
         try:
-            phone = UserManage.objects.get(phone=phone)
+            phone = UserList.objects.get(phone=phone)
         except:
             return phone
         else:

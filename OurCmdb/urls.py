@@ -24,5 +24,7 @@ urlpatterns = [
     url(r'^user_check',user_check,name="user_check"),
     url(r'^password_check',password_check,name="password_check"),
     url(r'^email_check',email_check,name='email_check'),
-    url(r'^register$',register,name="register")
+    url(r'^register$',register,name="register"),
+    url(r'ver_code_display/',create_code_img,name="ver_code_display"),
+    url(r'^index$',index,name="index"),
 ]
