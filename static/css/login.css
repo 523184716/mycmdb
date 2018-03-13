@@ -3,8 +3,10 @@
 }
 
 #login {
-
+    /*display: block;*/
+    width: 84%;
     margin: 10px auto;
+    /*text-align: center;*/
 }
 
 .img-size {
@@ -23,4 +25,25 @@ body {
 
 #verify_code,#remember {
     margin: 10px 0px;
+}
+/*class="input-group-addon"*/
+.check_code {
+    width: 113px;
+    height: 46px;
+    border-radius: 4px;
+    cursor: pointer;
+    position: absolute;
+    z-index: 3;
+    right: 1px;
+    /*top:5px;*/
+    padding:5px 6px;
+    /*vertical-align: center;*/
+    /*margin: auto;*/
+    border:1px  solid #112B6D;
+    /*background-color: #3c763d;*/
+}
+
+.img_position {
+    margin: auto auto;
+
 }

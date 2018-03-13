@@ -6,9 +6,9 @@ import  string
 import  os
 
 # 随机数位数
-random_num = 5
+random_num = 6
 # 设定生成图片的宽高
-size = (80,22)
+size = (100,34)
 # 图片背景色
 bgl = (255,255,255)
 # 在系统选取一种字体类型
@@ -56,8 +56,8 @@ def Create_image():
         Create_line(draw, width, height)
         Create_line(draw, width, height)
         Create_line(draw, width, height)
-    # image = image.transform((width, height), Image.AFFINE, (1, -0.3, 0, -0.1, 1, 0), Image.BILINEAR)  # 创建扭曲
-    # image = image.filter(ImageFilter.EDGE_ENHANCE_MORE)  # 滤镜，边界加强
+    #image = image.transform((width, height), Image.AFFINE, (1, -0.3, 0, -0.1, 1, 0), Image.BILINEAR)  # 创建扭曲
+    #image = image.filter(ImageFilter.EDGE_ENHANCE_MORE)  # 滤镜，边界加强
     # image.save('{}{}.png'.format(file_path,filename))
     return  image,text
 # print Creat_random()
