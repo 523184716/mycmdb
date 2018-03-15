@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block style %}
-    <script src="{% static "js/vue.js" %}"></script>
+    <!--<script src='{% static "vendor/jquery/jquery.min.js" %}'></script>-->
+    <script src='{% static "js/vue.js" %}'></script>
     <script src='{% static "js/vue-resource.js" %}'></script>
 {% endblock %}
 
@@ -15,5 +16,216 @@
 {% endblock %}
 
 {% block content %}
+    <div >
+        <br>
+        <form class="form-inline">
+            <a href="#"><button data-toggle="modal" data-target="#assetadd" type="button" class="btn btn-success">添加数据</button></a>
+            <button type="button" class="btn btn-success">删除数据</button>
+            <button type="submit" class="btn btn-primary navbar-right">搜索</button>
+            <div class="form-group navbar-right">
+                <div class="input-group">
+                    <div class="input-group-addon "><span class="glyphicon glyphicon-search"></span></div>
+                    <input type="text" class="form-control" id="exampleInputAmount" placeholder="请输入搜索内容">
+                </div>
+            </div>
+        </form>
+        {% verbatim myblock %}
+            <div id="table_data">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>选择</th>
+                                <th>#ID</th>
+                                <th>hostname</th>
+                                <th>IP</th>
+                                <th>cpu</th>
+                                <th>mem</th>
+                                <th>hard</th>
+                                <th>sys_type</th>
+                                <th>sys_version</th>
+                                <th>remarks</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody v-for="eq in asset_data">
+                            <tr>
+                                <td ><input type="checkbox"></td>
+                                <td>{{ eq.hostname }}</td>
+                                <td>{{ eq.ip }}</td>
+                                <td>{{ eq.mac }}</td>
+                                <td>{{ eq.cpu_count }}</td>
+                                <td>{{ eq.memory }}</td>
+                                <td>{{ eq.disk }}</td>
+                                <td>{{ eq.sys_type }}</td>
+                                <td>{{ eq.sys_version}}</td>
+                                <td><a href="#"><button type="button" class="btn btn-success">修改</button></a></td>
+                                <td><a href="#"><button type="button" class="btn btn-success">删除</button></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <nav aria-label="Page navigation ">
+                    <div class="text-center">
+                        <ul class="pagination" >
+                            <li><a>每页:
+                                <select id="per_page_num_get">
+                                    <option value="5" selected="selected">5</option>
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                </select></a>
+                            </li>
+                            <li><a href="#">首页</a></li>
+                            <li ><a v-on:click="prevPage" aria-label="Previous"><span aria-hidden="true">上一页</span></a></li>
+                            <!--<li class="active"><a v-on:click="getPage(page_num)">1<span class="sr-only">{{ page_num[0] }}</span></a></li>-->
+                            <!--<li><a v-on:click="getPage(page_num)">{{ page_num[1] }}</a></li>-->
+                            <!--<li><a v-on:click="getPage(page_num)">{{ page_num[2] }}</a></li>-->
+                            <!--<li><a v-on:click="getPage(page_num)">{{ page_num[3] }}</a></li>-->
+                            <!--<li><a v-on:click="getPage(page_num)">{{ page_num[4] }}</a></li>-->
+                            <li v-for="page in page_num"><a v-on:click="getPage(page)">{{ page }}</a></li>
+                            <li><a href="#" aria-label="Next"><span aria-hidden="true">下一页</span></a></li>
+                            <li><a href="#">尾页</a></li>
+                            <li><a>第{{ current_page }}页/共{{ total_page }}页</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        {% endverbatim myblock %}
+    </div>
+    <div class="modal fade" id="assetadd" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <!--模态框的头部设置关闭按钮和标题-->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-center">主机数据添加</h4>
+                </div>
+                <!--模态框的body部分，加载要显示的内容-->
+                <div class="modal-body">
+                    <!--<p>One fine body&hellip;</p>-->
+                    <form>
+                        <table class="table table-hover">
+                            <tr>
+                                <th style="display: block;text-align: right">hostname：</th>
+                                <td>{{ obj.hostname }}&nbsp;*{{ obj.errors.hostname.0 }}</td>
+                            </tr>
+                            <tr>
+                                <th style="display: block;text-align: right">IP：</th>
+                                <td>{{ obj.ip }}&nbsp;*{{ obj.errors.ip.0 }}</td>
+                            </tr>
+                            <tr>
+                                <th style="display: block;text-align: right">mac：</th>
+                                <td>{{ obj.mac }}&nbsp;*{{ obj.errors.mac.0 }}</td>
+                            </tr>
+                            <tr>
+                                <th style="display: block;text-align: right">cpu：</th>
+                                <td>{{ obj.cpu }}&nbsp;*{{ obj.errors.cpu.0 }}</td>
+                            </tr>
+                            <tr>
+                                <th style="display: block;text-align: right">memory：</th>
+                                <td>{{ obj.memory }}&nbsp;*{{ obj.errors.memory.0 }}</td>
+                            </tr>
+                            <tr>
+                                <th style="display: block;text-align: right">disk：</th>
+                                <td>{{ obj.disk }}&nbsp;*{{ obj.errors.disk.0 }}</td>
+                            </tr>
+                            <tr>
+                                <th style="display: block;text-align: right">sys_type：</th>
+                                <td>{{ obj.sys_type }}&nbsp;*{{ obj.errors.sys_type.0 }}</td>
+                            </tr>
+                            <tr>
+                                <th style="display: block;text-align: right">sys_version：</th>
+                                <td>{{ obj.sys_version }}&nbsp;*{{ obj.errors.sys_version.0 }}</td>
+                            </tr>
+                            <tr>
+                                <th style="display: block;text-align: right">备注：</th>
+                                <td>{{ obj.remarks }}</td>
+                            </tr>
+                        </table>
+                        <div class="text-center" >
+                            <!--通过此id设置两个按钮之间的间距-->
+                            <!--<button   type="button" class="btn btn-primary" data-toggle="popover"  data-placement="top" trigger="focus" title="Dismissible popover" data-content="Vivamus" id="registerbutton">注册</button>-->
+                            <button tabindex="200" class="btn btn-primary" role="button" data-toggle="popover" data-placement="top" data-trigger="focus"  data-content="And here's " id="registerbutton" type="submit">添加</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+                        </div>
+                    </form>
+                </div>
+                <!--<div class="modal-footer ">-->
+                    <!--&lt;!&ndash;增加一个div盒子，方便设置里面的button居中(inner-block)&ndash;&gt;-->
+                    <!--<div class="text-center" >-->
+                        <!--&lt;!&ndash;通过此id设置两个按钮之间的间距&ndash;&gt;-->
+                        <!--&lt;!&ndash;<button   type="button" class="btn btn-primary" data-toggle="popover"  data-placement="top" trigger="focus" title="Dismissible popover" data-content="Vivamus" id="registerbutton">注册</button>&ndash;&gt;-->
+                        <!--<a tabindex="200" class="btn btn-primary" role="button" data-toggle="popover" data-placement="top" data-trigger="focus"  data-content="And here's " id="registerbutton">添加</a>-->
+                        <!--<button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>-->
+                    <!--</div>-->
+                <!--</div>-->
 
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    <script>
+        Vue.use(VueResource);
+        new Vue (
+            {
+                el:"#table_data",
+                data:{
+                    asset_data:"",
+                    page_num:"",
+                    total_page:"",
+                    current_page:"",
+                    firstpage:{
+                        disabled:""
+                    },
+                    lastpage:{
+                        disabled:""
+                    }
+                },
+                created:function () {
+                    var url="/equip/getasset/1";
+                    this.$http.get(url).then(
+                        function (data) {
+                            console.log(data.data.data)
+                            this.asset_data = data.data.data
+                            this.page_num = data.data.Prange
+                            this.total_page = data.data.total_page
+                            this.current_page = data.data.current_page
+                            console.log(data.data.total_page)
+                            console.log(data.data.current_page)
+                        },
+                        function (error) {
+                            console.log(error)
+                        }
+                    )
+                },
+                methods:{
+                    getPage:function (page) {
+                        var url = "/equip/getasset/"+page;
+                        console.log(url)
+                        $(this).attr("class","active")
+                        this.$http.get(url).then(
+                            function (data) {
+                                console.log(data.data.data)
+                                this.asset_data = data.data.data
+                                this.page_num = data.data.Prange
+                                this.total_page = data.data.total_page
+                                this.current_page = data.data.current_page
+                                console.log(data.data.total_page)
+                                console.log(data.data.current_page)
+                            },
+                            function (error) {
+                                console.log(error)
+                            }
+                        )
+                    },
+                    prevPage(){
+                        if (this.index >1 ){
+                            this.go(this.index - 1)
+                        }
+                    }
+                }
+
+            }
+        )
+    </script>
 {% endblock %}

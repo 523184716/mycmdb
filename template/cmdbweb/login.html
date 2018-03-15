@@ -70,7 +70,7 @@
                         </label>
                     </div>
                     <div class="form-group has-success has-feedback text-center btn-group-lg " id="login">
-                        <input class="btn btn-primary btn-block " type="button" value="login" id="submitdata">
+                        <input class="btn btn-primary btn-block " type="submit" value="login" id="submitdata">
                     </div>
                     <div class="input-group input-group-sm btn-block" style="color:red;"><span class="btn-block text-center">{{ result }}</span></div>
                 </form>
@@ -95,12 +95,13 @@
                 $(".img_position").click(function () {
                     $(".img_position").attr("src","http://127.0.0.1:8022/ver_code_display/?flag="+Math.random());
                 }),
+                <!--下面的暂时没用，用的表单的submit-->
                 $("#submitdata").click(function () {
                     user = $("#inputSuccess4").val();
                     password = $("#inputGroupSuccess3").val();
-                    verify_code = $("#inputGroupSuccess5").val();
+                    check_code = $("#inputGroupSuccess5").val();
                     count = $("#submitdata").parent().next("i").text();
-                    if (user=="" && password=="" && verify_code==""){
+                    if (user=="" && password=="" && check_code==""){
                         console.log(count)
                         if (count){
                             $("#submitdata").parent().next("i").text("请确认登录信息是否已填全")
@@ -116,7 +117,7 @@
                         $.ajax({
                             url:"{% url 'login' %}",
                             type:"post",
-                            data:{"username":user,"password":password,"verify_code":verify_code,
+                            data:{"username":user,"password":password,"check_code":check_code,
                                     "csrfmiddlewaretoken":"{{ csrf_token }}"},
                             success:function (data) {
                                 console.log(data)

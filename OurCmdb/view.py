@@ -21,10 +21,10 @@ def index(request):
 
 def login(request):
     if request.method == "POST":
-        login_data = request.POST
-        print login_data
-        username = login_data["username"]
-        password = login_data["password"]
+        print request.POST
+        username = request.POST["username"]
+        password = request.POST["password"]
+        check_code = request.POST["check_code"]
         print username
         print password
         try:
@@ -38,17 +38,21 @@ def login(request):
             print check_user.password
             #用户存在的情况下判断密码是否正确
             if check_user.password == secretdata(password):
-                print "ceshi2"
-                #都OK的情况下跳转至首页并添加cookie至地址中，设置session
-                response_url = HttpResponseRedirect("index")
-                response_url.set_cookie("username",username)
-                request.session["username"]=username
-                request.session["is_login"]=True
-                token = request.COOKIES.get("token")
-                if token:
-                    print "ceshi3"
-                    return response_url
+                if str(request.session['check_code']).lower() == str(check_code).lower():
+                    print "ceshi2"
+                    #都OK的情况下跳转至首页并添加cookie至地址中，设置session
+                    response_url = HttpResponseRedirect("index")
+                    response_url.set_cookie("username",username)
+                    request.session["username"]=username
+                    request.session["is_login"]=True
+                    token = request.COOKIES.get("token")
+                    if token:
+                        print "ceshi3"
+                        return response_url
+                    else:
+                        return HttpResponseRedirect("login")
                 else:
+                    print "验证码不正确"
                     return HttpResponseRedirect("login")
             else:
                 return HttpResponseRedirect("login")
