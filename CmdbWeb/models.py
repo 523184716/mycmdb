@@ -18,3 +18,12 @@ class EquipmentDetail(models.Model):
 
     def __unicode__(self):
         return  self.hostname
+
+class Servicer(models.Model):
+    ip = models.GenericIPAddressField(verbose_name="服务器地址")
+    username = models.CharField(max_length=32,verbose_name="登录用户名")
+    password = models.CharField(max_length=64,verbose_name="登录密码")
+    port = models.IntegerField(max_length=5,verbose_name="登录端口")
+
+    def __unicode__(self):
+        return self.ip

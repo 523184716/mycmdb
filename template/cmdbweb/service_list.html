@@ -1,0 +1,137 @@
+{% extends "cmdbweb/Base/base.html" %}
+{% block title %}
+    服务器认证列表
+{% endblock %}
+
+{% block style %}
+{% endblock %}
+
+{% block label %}
+    服务器认证信息
+{% endblock %}
+
+{% block content %}
+    <div>
+        <form class="form-inline">
+            <a href="#"><button data-toggle="modal" data-target="#assetadd" type="button" class="btn btn-success navbar-left">添加数据</button></a>
+            <button type="button" class="btn btn-success navbar-left">删除数据</button>
+            <!--<div class="uploader green navbar navbar-left">-->
+                <!--<input type="text" class="filename" readonly/>-->
+                <!--<input type="button" name="file" class="button" value="Browse..."/>-->
+                <!--<input type="file" size="30"/>-->
+            <!--</div>-->
+            <div class="form-group navbar-left">
+                <div class="input-group">
+                    <div class="input-group-addon "><span class="glyphicon glyphicon-search"></span></div>
+                    <input type="text" class="form-control" id="exampleInputAmount" placeholder="请输入搜索内容">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary navbar-left">搜索</button>
+        </form>
+    </br>
+        </br>
+        {% verbatim myblock %}
+            <div id="table_data">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>选择</th>
+                                <!--<th>#ID</th>-->
+                                <th>hostname</th>
+                                <th>IP</th>
+                                <th>cpu</th>
+                                <th>mem</th>
+                                <th>remarks</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody v-for="eq in asset_data">
+                            <tr>
+                                <td ><input type="checkbox"></td>
+                                <td>{{ eq.hostname }}</td>
+                                <td>{{ eq.ip }}</td>
+                                <td>{{ eq.mac }}</td>
+                                <td>{{ eq.cpu_count }}</td>
+                                <td>{{ eq.memory }}</td>
+                                <td><a href="#"><button type="button" class="btn btn-success">修改</button></a></td>
+                                <td><a href="#"><button type="button" class="btn btn-success">删除</button></a></td>
+                                <td><a href="#"><button type="button" class="btn btn-success">web登录</button></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <nav aria-label="Page navigation ">
+                    <div class="text-center">
+                        <ul class="pagination" >
+                            <li><a>每页:
+                                <select id="per_page_num_get">
+                                    <option value="5" selected="selected">5</option>
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                </select></a>
+                            </li>
+                            <li><a href="#">首页</a></li>
+                            <li ><a v-on:click="prevPage" aria-label="Previous"><span aria-hidden="true">上一页</span></a></li>
+                            <li v-for="page in page_num"><a v-on:click="getPage(page)">{{ page }}</a></li>
+                            <li><a href="#" aria-label="Next"><span aria-hidden="true">下一页</span></a></li>
+                            <li><a href="#">尾页</a></li>
+                            <li><a>第{{ current_page }}页/共{{ total_page }}页</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        {% endverbatim myblock %}
+    </div>
+    <div class="modal fade" id="assetadd" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <!--模态框的头部设置关闭按钮和标题-->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-center">服务器添加</h4>
+                </div>
+                <!--模态框的body部分，加载要显示的内容-->
+                <div class="modal-body">
+                    <!--<p>One fine body&hellip;</p>-->
+                    <form>
+                        <table class="table table-hover">
+                            <tr>
+                                <th style="display: block;text-align: right">hostname：</th>
+                                <td>{{ obj.hostname }}&nbsp;*{{ obj.errors.hostname.0 }}</td>
+                            </tr>
+                            <tr>
+                                <th style="display: block;text-align: right">IP：</th>
+                                <td>{{ obj.ip }}&nbsp;*{{ obj.errors.ip.0 }}</td>
+                            </tr>
+                            <tr>
+                                <th style="display: block;text-align: right">mac：</th>
+                                <td>{{ obj.mac }}&nbsp;*{{ obj.errors.mac.0 }}</td>
+                            </tr>
+                            <tr>
+                                <th style="display: block;text-align: right">cpu：</th>
+                                <td>{{ obj.cpu }}&nbsp;*{{ obj.errors.cpu.0 }}</td>
+                            </tr>
+                        </table>
+                        <div class="text-center" >
+                            <!--通过此id设置两个按钮之间的间距-->
+                            <!--<button   type="button" class="btn btn-primary" data-toggle="popover"  data-placement="top" trigger="focus" title="Dismissible popover" data-content="Vivamus" id="registerbutton">注册</button>-->
+                            <button tabindex="200" class="btn btn-primary" role="button" data-toggle="popover" data-placement="top" data-trigger="focus"  data-content="And here's " id="registerbutton" type="submit">添加</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    <script>
+//        $(function(){
+//            $("input[type=file]").change(function(){$(this).parents(".uploader").find(".filename").val($(this).val());});
+//            $("input[type=file]").each(function(){
+//            if($(this).val()==""){$(this).parents(".uploader").find(".filename").val("No file selected...");}
+//            });
+//        });
+    </script>
+{% endblock %}
