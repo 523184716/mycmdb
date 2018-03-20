@@ -2,12 +2,12 @@
 
 from datacollect import Getsysdata
 from  senddata import Postdata
-url = "http://127.0.0.1:8022/equip/postasset"
+url = "http://192.192.1.34:8022/equip/postasset"
 
 data = Getsysdata()
 sendData = data.mergedata()
 
 sender = Postdata(url,sendData)
-# sender.get_request()
+sender.get_request()
 response = sender.get_response()
 print(response)

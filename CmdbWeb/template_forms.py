@@ -45,3 +45,6 @@ class AssetForm(forms.Form):
                                  "max_length": "操作系统版本长度不能超过32位"
                              })
     remarks = forms.CharField(required=False,widget=forms.Textarea)
+
+
+

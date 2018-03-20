@@ -4,7 +4,7 @@ import os
 import psutil
 import uuid
 
-ip = ""
+ip = "192.192.1.34"
 
 def systype():
     """
@@ -58,7 +58,7 @@ class Getsysdata:
         sys_version = systype()["sys_version"].replace("\n","")
         return  sys_version
 
-    def get_cpu(self):
+    def get_cpu_count(self):
         cpu = psutil.cpu_count()
         return  str(cpu)
 

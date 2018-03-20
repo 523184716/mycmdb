@@ -304,13 +304,13 @@
                             <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> 用户管理</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 服务器管理<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 资产管理<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="{% url 'equip:asset' %}">资产详情</a>
+                                    <a href="{% url 'equip:asset' %}">生产环境</a>
                                 </li>
                                 <li>
-                                    <a href="{% url 'equip:authdata' %}">服务器列表</a>
+                                    <a href="{% url 'equip:authdata' %}">准生产环境</a>
                                     <!--<ul class="nav nav-third-level">-->
                                         <!--<li>-->
                                             <!--<a href="#">192.168.1.11</a>-->
@@ -318,7 +318,33 @@
                                     <!--</ul>-->
                                 </li>
                                 <li>
-                                    <a href="morris.html">服务器权限</a>
+                                    <a href="morris.html">测试环境</a>
+                                </li>
+                                <li>
+                                    <a href="morris.html">开发环境</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 服务管理<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#">生产环境</a>
+                                </li>
+                                <li>
+                                    <a href="#">准生产环境</a>
+                                    <!--<ul class="nav nav-third-level">-->
+                                        <!--<li>-->
+                                            <!--<a href="#">192.168.1.11</a>-->
+                                        <!--</li>-->
+                                    <!--</ul>-->
+                                </li>
+                                <li>
+                                    <a href="#">测试环境</a>
+                                </li>
+                                <li>
+                                    <a href="#">开发环境</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->

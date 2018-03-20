@@ -12,8 +12,8 @@ class EquipmentDetail(models.Model):
     mac = models.CharField(max_length=64,verbose_name="机器Mac地址")
     sys_type = models.CharField(max_length=32,verbose_name="操作系统类型")
     sys_version = models.CharField(max_length=32,verbose_name="操作系统版本")
-    cpu_count = models.IntegerField(verbose_name="cpu个数")
-    disk = models.CharField(max_length=32,verbose_name="硬盘大小")
+    cpu_count = models.CharField(max_length=8,verbose_name="cpu个数")
+    disk = models.CharField(max_length=128,verbose_name="硬盘大小")
     memory = models.CharField(max_length=32,verbose_name="内存大小")
 
     def __unicode__(self):
