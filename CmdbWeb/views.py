@@ -8,6 +8,11 @@ from models import EquipmentDetail
 from django.views.decorators.csrf import csrf_exempt
 from sshconnect import createconnect,docommand
 from clientfile import datacollect
+import  os
+import  hmac,hashlib
+import  json
+import  time
+from ansible.playbook.play import  Play
 def asset(request):
     obj = AssetForm()
     return  render(request,'cmdbweb/asset_list.html',locals())
@@ -47,6 +52,7 @@ def getasset(request,pagenum):
     data = []
     for obj in data_result:
         dicts = {
+            "id":obj.id,
             "hostname":obj.hostname,
             "ip":obj.ip,
             "mac":obj.mac,
@@ -128,13 +134,55 @@ def addeqip(request):
             port = int(port)
         print ip,username,password
         if ip and username and password:
-            datacollect.ip = ip
+            #datacollect.ip = ip
+            dstipdir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cmdb/datacollect.py")
+            os.system("sed -i 's/ip = .*/ip = \"{}\"/' {}".format(ip, dstipdir))
             createresult = createconnect(ip,username,password,port,docommand)
             if createresult["state"] == "success":
-            result["state"] = "success"
-            result["data"] = "success"
+                result["state"] = "success"
+                result["data"] = "success"
         else:
             result["data"] = "ip and username password is not be null"
     else:
         result["data"] = "request method must be post"
     return JsonResponse(result)
+
+def terminal(request,id):
+    id = int(id)
+    print id
+    dstdata = EquipmentDetail.objects.get(id = id)
+    dstip = dstdata.ip
+
+    port = 22
+    user = "root"
+    return  render(request,"cmdbweb/terminal.html",locals())
+
+def create_signature(secret,*parts):
+    hash = hmac.new(secret,digestmod = hashlib.sha1)
+    for parts in parts:
+        hash.update(str(parts))
+    return hash.hexdigest()
+
+def get_auth_obj(request):
+    user = request.user.username
+    gateone_server = "https://10.36.8.222"
+
+    secret = "MGFiNmU5YmQ5ZTRhNDdiMjkzNjI0MzRlY2UxYzk0MGFhZ"
+    print type(str(secret))
+    api_key = "YWNkYjYxOTdjMGFhNGZmM2E5MjI3OThiMTAyMDU0OGViZ"
+
+    authobj = {
+        'api_key': api_key,
+        'upn': "gateone",
+        'timestamp': str(int(time.time() * 1000)),
+        'signature_method': 'HMAC-SHA1',
+        'api_version': '1.0'
+    }
+    my_hash = hmac.new(str(secret), digestmod=hashlib.sha1)
+    print my_hash
+    my_hash.update(authobj['api_key'] + authobj['upn'] + authobj['timestamp'])
+
+    authobj['signature'] = my_hash.hexdigest()
+    auth_info_and_server = {"url": gateone_server, "auth": authobj}
+    valid_json_auth_info = json.dumps(auth_info_and_server)
+    return HttpResponse(valid_json_auth_info)

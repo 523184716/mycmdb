@@ -49,6 +49,7 @@
                                 <th>remarks</th>
                                 <th></th>
                                 <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody v-for="eq in asset_data">
@@ -64,6 +65,7 @@
                                 <td>{{ eq.sys_version}}</td>
                                 <td><a href="#"><button type="button" class="btn btn-success">修改</button></a></td>
                                 <td><a href="#"><button type="button" class="btn btn-success">删除</button></a></td>
+                                <td><a href="/equip/terminal/{{ eq.id }}" class="center" target="_blank"><button class="btn btn-success">web登录</button></a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -292,7 +294,8 @@
                     type:"post",
                     data:dict,
                     success:function (args) {
-                       console.log(args)
+                        console.log(args)
+                        $('#equipadd').modal("hide")
                     },
                     error:function(error) {
                         console.log(error)
