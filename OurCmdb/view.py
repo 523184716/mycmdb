@@ -22,6 +22,7 @@ def index(request):
 def login(request):
     if request.method == "POST":
         login_data = request.POST
+        print login_data
         username = login_data["username"]
         password = login_data["password"]
         print username
@@ -45,6 +46,7 @@ def login(request):
                 request.session["is_login"]=True
                 token = request.COOKIES.get("token")
                 if token:
+                    print "ceshi3"
                     return response_url
                 else:
                     return HttpResponseRedirect("login")
